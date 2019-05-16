@@ -1,29 +1,25 @@
-import React from 'react';
-import { render } from 'react-dom';
+import React, { useState } from 'react';
 
-class OneTimeButton extends React.Component {
-    state ={
-        clicked: false
+function OneTimeButton(props){
+    // create a new piece of state
+    // comes with own update function!
+    const [clicked, setClicked] = useState(false);
+
+    // we need to handle button clicks
+    // by calling out to the callback prop
+    // and then turning the button off
+
+    function doClick() {
+        props.onClick();
+        setClicked(true);    
     }
 
-
-//click handler
-handleClick = () => {
-    // click handler won't be called if the button 
-    // is disabled, so if we got here, it's safe to 
-    // trigger the click
-    this.props.onClick();
-    this.ListeningStateChangedEvent({clicked: true});
-}
-
-render() {
     return (
         <button
-        onClick = {this.handleClick}
-        disabled={this.state.clicked}
+        onClick={clicked ? undefined : doClick}
+        disabled={clicked}
         >
             You can only click me once...
         </button>
-        );
-    }
+    );
 }
